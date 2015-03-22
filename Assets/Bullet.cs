@@ -19,7 +19,7 @@ public class Bullet : MonoBehaviour {
 	}
 
 	void OnCollisionEnter2D(Collision2D col){
-		transform.Rotate(new Vector3(0,0,180 + Random.Range (-5,5)));
+		transform.Rotate(new Vector3(0,0,180 + Random.Range (-5f,5f)));
 		vel = transform.up * speed;
 //		vel = Vector3.Reflect (rb.velocity, col.contacts [0].normal);
 //		vel = new Vector3(-vel.x + Random.Range(-2f, 2f), -vel.y, vel.z);
