@@ -48,24 +48,9 @@ public class PlatformerPlayer : MonoBehaviour {
 		else {
 			rb.velocity = new Vector2 (0, rb.velocity.y);
 		}
-
-		Debug.Log (Input.GetAxis ("Horizontal"));
-
 	}
-	
-//	public virtual void MovementControls2(){
-//		// movement	
-//		if (Input.GetKey (KeyCode.RightArrow)) {
-//			rb.velocity = new Vector2 (speed, rb.velocity.y);
-//		} else if (Input.GetKey (KeyCode.LeftArrow)) {
-//			rb.velocity = new Vector2 (-speed, rb.velocity.y);
-//		} else {
-//			rb.velocity = new Vector2 (0, rb.velocity.y);
-//		}
-//	}
 
 	public virtual void JumpControls(){
-		Debug.Log (Input.GetAxis ("Jump"));
 		// jump
 		if (Input.GetAxisRaw("Jump") != 0 && grounded) {
 			if(!jumpAxisInUse){
