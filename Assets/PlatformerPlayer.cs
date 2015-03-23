@@ -27,11 +27,11 @@ public class PlatformerPlayer : MonoBehaviour {
 	// Update is called once per frame
 	public virtual void FixedUpdate () {
 		UpdateOnGround ();
-		MovementControls ();
-		JumpControls ();
 	}
 
 	public virtual void Update(){
+		JumpControls ();
+		MovementControls ();
 	}
 
 	public virtual void MovementControls(){
@@ -46,7 +46,8 @@ public class PlatformerPlayer : MonoBehaviour {
 			facingRight = true;
 		}
 		else {
-			rb.velocity = new Vector2 (0, rb.velocity.y);
+			rb.velocity = new Vector2(0, rb.velocity.y);
+//			LerpXSpeedToZero();
 		}
 	}
 
@@ -72,5 +73,9 @@ public class PlatformerPlayer : MonoBehaviour {
 	public virtual void UpdateOnGround(){
 		grounded = Physics2D.OverlapCircle (groundChecker.position, groundRadius, whatIsGround);
 		// anim.SetBool("Grounded", grounded);
+	}
+
+	public virtual void LerpXSpeedToZero(){
+		rb.velocity = Vector2.Lerp (rb.velocity, new Vector2 (0, rb.velocity.y), 12 * Time.deltaTime);
 	}
 }

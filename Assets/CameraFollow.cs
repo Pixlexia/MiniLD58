@@ -7,7 +7,7 @@ public class CameraFollow : MonoBehaviour {
 	public float speed;
 	
 	// Update is called once per frame
-	void FixedUpdate () {
+	void Update () {
 		transform.position = Vector3.Lerp (transform.position, new Vector3(target.position.x, target.position.y, transform.position.z), speed * Time.deltaTime);
 	}
 }

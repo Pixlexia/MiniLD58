@@ -33,7 +33,6 @@ public class PlayerController : PlatformerPlayer {
 			Shielding();
 
 			if(!isStoppedOnShield){
-				rb.velocity = new Vector2(0, rb.velocity.y);
 				isStoppedOnShield = true;
 			}
 		}
@@ -49,6 +48,8 @@ public class PlayerController : PlatformerPlayer {
 
 	void Shielding(){
 		shielding = true;
+
+		LerpXSpeedToZero ();
 
 		float xaxis = Input.GetAxis ("Horizontal");
 		float yaxis = Input.GetAxis ("Vertical");
@@ -79,6 +80,9 @@ public class PlayerController : PlatformerPlayer {
 		}
 
 		shield.transform.rotation = Quaternion.Euler(new Vector3(0,0,rotation));
-
 	}
+
+	public void Die(){
+		Application.LoadLevel (Application.loadedLevelName);
+	}		
 }
