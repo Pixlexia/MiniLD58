@@ -5,6 +5,7 @@ public class TiltText : MonoBehaviour {
 
 	public int OptionNum;
 	public float tiltAngle;
+
 	private int HoverOption;
 	private Quaternion targetTilt;
 	private Quaternion originalTilt;
