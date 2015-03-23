@@ -4,14 +4,35 @@ using System.Collections;
 public class Turret : MonoBehaviour {
 
 	public enum TurretDir { left, right, up, down }
+	public enum TurretType { repeating, detect }
 
 	public GameObject bullet;
+	public float bulletSpeed;
 	public float delayBeforeFire;
-	public TurretDir dir;
+	public TurretType type;
+	public float range = 6;
+
+	LayerMask raycastLayers;
 
 	// Use this for initialization
 	void Start () {
-		Fire ();
+		// change this if add more layers
+		raycastLayers.value = -513;
+
+		if (type == TurretType.repeating) {
+			InvokeRepeating ("Fire", 0, delayBeforeFire);
+		}
+	}
+
+	public virtual void Update(){
+		if (type == TurretType.detect) {
+			RaycastHit2D hit = Physics2D.Raycast(transform.position + transform.up, transform.up, range, raycastLayers);
+			if(hit.collider != null){
+				Debug.Log (hit.collider.gameObject.name);
+				if(hit.collider.gameObject.tag == "Player")
+					ShootBullet();
+			}
+		}
 	}
 
 	public virtual void Fire(){
@@ -19,31 +40,10 @@ public class Turret : MonoBehaviour {
 	}
 
 	public void ShootBullet(){
-		Vector3 pos = Vector3.zero, rot = Vector3.zero;
+		GameObject go = Instantiate (bullet, transform.position + transform.up, transform.localRotation) as GameObject;
+		go.GetComponent<Bullet> ().hp = 1;
 
-		switch (dir) {
-		case TurretDir.up:
-			pos = new Vector3(0, 1, 0);
-			rot = new Vector3(0,0,0);
-			break;
-
-		case TurretDir.down:
-			pos = new Vector3(0, -1, 0);
-			rot = new Vector3(0,0,180);
-			break;
-
-		case TurretDir.left:
-			pos = new Vector3(-1, 0, 0);
-			rot = new Vector3(0,0,90f);
-			break;
-
-		case TurretDir.right:
-			pos = new Vector3(1, 0, 0);
-			rot = new Vector3(0,0,-90f);
-			break;
-		}
-
-
-		Instantiate (bullet, transform.position + pos, Quaternion.Euler(rot));
+		if(bulletSpeed != 0)
+			go.GetComponent<Bullet> ().speed = bulletSpeed;
 	}
 }

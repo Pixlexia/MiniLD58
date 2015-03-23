@@ -23,10 +23,8 @@ public class Bullet : MonoBehaviour {
 	public virtual void OnCollisionEnter2D(Collision2D col){
 		if (col.gameObject.tag == "Player") {
 			Play.CamShake();
-//			GameObject.Find ("Main Camera").GetComponent<CameraShake>().Shake();
 		}
-
-		if (hp != -1) {
+		else if (hp != -1) {
 			hp--;
 			if(hp <= 0){
 				Die();
