@@ -3,31 +3,38 @@ using System.Collections;
 
 public class Bullet : MonoBehaviour {
 
-	public float speed;
-	Vector3 vel;
-	Rigidbody2D rb;
+	public float speed = 10;
+	public int hp = -1; // -1 means infinite
+
+	protected Vector3 vel;
+	protected Rigidbody2D rb;
 
 	// Use this for initialization
-	void Start () {
+	public virtual void Start () {
 		rb = GetComponent<Rigidbody2D> ();
 		vel = transform.up * speed;
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	public virtual void Update () {
 		rb.velocity = vel;
 	}
 
-	void OnCollisionEnter2D(Collision2D col){
-		transform.Rotate(new Vector3(0,0,180));
-//		transform.Rotate(new Vector3(0,0,180 + Random.Range (-5f,5f)));
-		vel = transform.up * speed;
-//		vel = Vector3.Reflect (rb.velocity, col.contacts [0].normal);
-//		vel = new Vector3(-vel.x + Random.Range(-2f, 2f), -vel.y, vel.z);
-//		Debug.Log (vel.x + " " + vel.y);
-
+	public virtual void OnCollisionEnter2D(Collision2D col){
 		if (col.gameObject.tag == "Player") {
-			GameObject.Find ("Main Camera").GetComponent<CameraShake>().Shake();
+			Play.CamShake();
+//			GameObject.Find ("Main Camera").GetComponent<CameraShake>().Shake();
 		}
+
+		if (hp != -1) {
+			hp--;
+			if(hp <= 0){
+				Die();
+			}
+		}
+	}
+
+	public virtual void Die(){
+		Destroy (this.gameObject);
 	}
 }

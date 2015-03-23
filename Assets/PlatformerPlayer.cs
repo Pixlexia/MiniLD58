@@ -14,7 +14,8 @@ public class PlatformerPlayer : MonoBehaviour {
 	// jump stuff
 	public Transform groundChecker;
 	public LayerMask whatIsGround;
-	float groundRadius = 0.2f;
+	GameObject groundCheck;
+	float groundRadius = 0.3f;
 	bool grounded = false;
 	bool jumpAxisInUse = false;
 
