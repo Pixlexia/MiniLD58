@@ -3,7 +3,7 @@ using System.Collections;
 
 public class BulletBounce : Bullet {
 	public override void OnCollisionEnter2D(Collision2D col){
-		transform.Rotate(new Vector3(0,0,180));
+		transform.Rotate(new Vector3(0,0,180 + Random.Range (-5,5)));
 		vel = transform.up * speed;
 
 		base.OnCollisionEnter2D (col);

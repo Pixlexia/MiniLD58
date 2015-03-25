@@ -2,17 +2,28 @@
 using System.Collections;
 
 public class PlayerController : PlatformerPlayer {
-
-	public GameObject shield;
-
+	GameObject shield;
 	bool shielding = false;
 	bool isStoppedOnShield = false;
+
+	// hit stuff
+	int hp;
+	const float invulnerableTime = 3f;
+	SpriteRenderer sprite;
+	public bool recoveringFromHit;
+
+	// coins
+	int coins;
 
 	// Use this for initialization
 	public override void Start () {
 		base.Start ();
 		shield = transform.FindChild ("shield").gameObject;
 		shield.SetActive (false);
+		hp = 2;
+
+		sprite = transform.FindChild("playerBody").GetComponent<SpriteRenderer> ();
+		recoveringFromHit = false;
 	}
 	
 	// Update is called once per frame
@@ -82,7 +93,34 @@ public class PlayerController : PlatformerPlayer {
 		shield.transform.rotation = Quaternion.Euler(new Vector3(0,0,rotation));
 	}
 
+	public void Hit(){
+		hp--;
+
+		if (hp <= 0){
+			Die ();
+		}
+		else{
+			InvokeRepeating("Blinking", 0, 0.05f);
+			Invoke ("StopBlink", invulnerableTime);
+			recoveringFromHit = true;
+		}
+	}
+
 	public void Die(){
 		Application.LoadLevel (Application.loadedLevelName);
 	}		
+
+	void Blinking(){
+		sprite.enabled = !sprite.enabled;	
+	}
+
+	void StopBlink(){
+		CancelInvoke ("Blinking");
+		sprite.enabled = true;
+		recoveringFromHit = false;
+	}
+
+	public void PickCoin(){
+		coins++;
+	}
 }
